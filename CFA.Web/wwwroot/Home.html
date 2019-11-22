@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Vanilla HTML Page for Testing</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+   
+
+</head>
+<body>
+    <h1>Welcome to the Stream Puzzle Test Page.</h1>
+
+    <section id="UserInput">
+        <textarea id="txtStream"></textarea>
+        <button id="btnCallApi">Calculate Score</button>
+    </section>
+
+    <section id="PuzzleResults">
+        <div id="ResultsMessage">
+            Try it yourself...
+        </div>
+    </section>
+
+    <script>
+
+        $("#btnCallApi").click(function () {
+
+            if ($("#txtStream").val() == '') {
+                $("#ResultsMessage").html('Must provide a value!');
+                return;
+            }
+
+            $.ajax({
+                url: "/api/Puzzles?stream=" + $("#txtStream").val(),
+                method: 'GET' ,
+                success: function (result) {
+                        $("#ResultsMessage").html('Score = ' + result);
+                },
+                error: function (result) {
+                    $("#ResultsMessage").html('Unable to calculate score...');
+                }
+            });
+
+        });
+
+    </script>
+</body>
+</html>
